@@ -12,9 +12,7 @@ public class PosMachine {
     private Map<String, List<Item>> getItemInfo(List<String> barcodes){
         List<Item> items = ItemsLoader.loadAllItems();
         Map<String, List<Item>> itemsCache = new HashMap<>();
-        barcodes.forEach(barcode -> {
-            filterAndMapItems(items, barcode, itemsCache);
-        });
+        barcodes.forEach(barcode -> filterAndMapItems(items, barcode, itemsCache));
         return itemsCache;
     }
 
