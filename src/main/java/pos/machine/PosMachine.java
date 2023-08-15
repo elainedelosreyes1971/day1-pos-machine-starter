@@ -1,11 +1,12 @@
 package pos.machine;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class PosMachine {
     public String printReceipt(List<String> barcodes) {
         Map<String, List<Item>> itemInfo = getItemInfo(barcodes);
-        return null;
+        return buildReceipt(itemInfo);
     }
 
     private Map<String, List<Item>> getItemInfo(List<String> barcodes){
@@ -29,5 +30,26 @@ public class PosMachine {
             }
             itemsCache.put(barcode, finalFilteredItems);
         }
+    }
+
+    private String buildReceipt(Map<String, List<Item>> itemInfo) {
+        List<String> keys = itemInfo.keySet().stream().sorted().collect(Collectors.toList());
+        StringBuilder receiptOutput = new StringBuilder("***<store earning no money>Receipt***\n");
+        int total = 0;
+        for(String key : keys){
+            List<Item> finalItems = itemInfo.get(key);
+            int qty = finalItems.size();
+            Item finalItem = finalItems.get(0);
+            int unitPrice = finalItem.getPrice();
+            int subtotal = qty * unitPrice;
+            total += subtotal;
+            receiptOutput.append("Name: ").append(finalItem.getName()).append(", Quantity: ").append(qty)
+                    .append(", Unit price: ").append(unitPrice).append(" (yuan), ").append("Subtotal: ")
+                    .append(subtotal).append(" (yuan)\n");
+        }
+        receiptOutput.append("----------------------\n")
+                .append("Total: ").append(total).append(" (yuan)\n")
+                .append("**********************");
+        return receiptOutput.toString();
     }
 }
