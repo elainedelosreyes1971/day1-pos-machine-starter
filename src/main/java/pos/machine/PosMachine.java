@@ -41,7 +41,7 @@ public class PosMachine {
             int qty = finalItems.size();
             Item finalItem = finalItems.get(0);
             int unitPrice = finalItem.getPrice();
-            int subtotal = qty * unitPrice;
+            int subtotal = calculateSubtotal(qty, unitPrice);
             total += subtotal;
             receiptOutput.append("Name: ").append(finalItem.getName()).append(", Quantity: ").append(qty)
                     .append(", Unit price: ").append(unitPrice).append(" (yuan), ").append("Subtotal: ")
@@ -51,5 +51,9 @@ public class PosMachine {
                 .append("Total: ").append(total).append(" (yuan)\n")
                 .append("**********************");
         return receiptOutput.toString();
+    }
+
+    private int calculateSubtotal(int qty, int unitPrice) {
+        return qty * unitPrice;
     }
 }
